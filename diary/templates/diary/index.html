@@ -76,56 +76,17 @@
     <div class="content">
         <button class="menu-button" onclick="toggleMenu()">メニュー</button>
         <ul class="menu" id="menu">
-        <li><a href="#">libbotとは</a></li>
-        <li><a href="#">心拍数を測る</a></li>
+        <li><a href="https://heart-libbot.onrender.com">libbotとは</a></li>
+        <li><a href="https://surch-heart.onrender.com/">心拍数を測る</a></li>
         </ul>
-        <p>心拍数で捉える</p>
         <h1>libbot</h1>
-        <p>このサイトは</p>
-        <button id="togglebottan">計測を始める</button>
-        <div id="toggleElement" style="display: none;">
-        結果は、
-        <p>{{ ser_data }}</p>
-        </div>
-    </div>
-    <div id="child_flame">
-        {{ now_time }}
-    </div>
-    <script>
-        var ctx = document.getElementById("myLineChart");
-        var myLineChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: ['六回前', '五回前', '四回前', '三回前', '二回前', '一回前', '現在'],
-            datasets: [
-              {
-                label: '心拍数',
-                data: [{{data1}},{{data2}},{{data3}},{{data4}},{{data5}},{{data6}},{{data7}}],
-                borderColor: "rgba(0,0,255,1)",
-                backgroundColor: "rgba(0,0,0,0)"
-              }
-            ],
-          },
-          options: {
-            title: {
-              display: true,
-              text: '心拍数'
-            },
-            scales: {
-              yAxes: [{
-                ticks: {
-                  suggestedMax: 40,
-                  suggestedMin: 0,
-                  stepSize: 10,
-                  callback: function(value, index, values){
-                    return  value +  'bpm'
-                  }
-                }
-              }]
-            },
-          }
-        });
-        </script>
+        <h2>新時代のヘルスケア</h2>
+        <h3>robbot(ロボット)×life(生活)=libbot</h3>
+        <p>このサイトはWRO2025 future inoveters部門に膝上するチームのサイトです</p>
+        <p>このサイトを使うには、Arduinoが必要となります。</p>
+        <p>また、試験用のため、あまり使わないでください</p>
+
+
     <script>
         function toggleMenu() {
         var menu = document.getElementById('menu');
