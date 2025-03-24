@@ -2,12 +2,12 @@ from django.shortcuts import render
 from django.views import View
 from datetime import datetime
 from zoneinfo import ZoneInfo
-ser_data=78
-data1=78
-data2=78
-data3=78
-data4=78
-data5=78
+ser_data=40
+data1=100
+data2=40
+data3=50
+data4=60
+data5=30
 data6=88
 data7=68
 
