@@ -117,18 +117,12 @@
             setTimeout(() => {
                 const aiMessage = document.createElement("div");
                 aiMessage.classList.add("message", "ai");
-                aiMessage.textContent = "AI: " + generateAIResponse(input.value);
+                aiMessage.textContent = "AI: " + "{{ response_text }}";
                 chatBox.appendChild(aiMessage);
                 chatBox.scrollTop = chatBox.scrollHeight;
             }, 1000);
             
             input.value = "";
-        }
-
-        function generateAIResponse(userText) {
-            const responses = [
-                {{respons}}];
-            return responses[Math.floor(Math.random() * responses.length)];
         }
     </script>
 </body>
