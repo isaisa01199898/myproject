@@ -16,12 +16,13 @@ client = OpenAI(api_key="sk-proj-v9X6QCgVmtgj5yWUAIXtRWZThc0-c_iFyirMJRqWpBEMvHN
 completion = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
-        {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
+        {"role": "system", "content": "あなたは陽気な関西人です。"},
+        {"role": "user", "content": "石破総理は好きですか？"}
   ]
 )
+response_text = completion.choices[0].message.content
 
-print(completion.choices[0].message)
+print(response_text)
 
 
 
@@ -37,8 +38,8 @@ class IndexView(View):
 "data4":data4,
 "data5":data5,
 "data6":data6,
-"data7":data7
-"message":respons
+"data7":data7,
+"response_text":respons
 })  
  
 
