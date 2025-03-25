@@ -39,7 +39,7 @@ class IndexView(View):
 "data5":data5,
 "data6":data6,
 "data7":data7,
-"response_text":respons
+"response_text":response_text
 })  
  
 
