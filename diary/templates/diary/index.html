@@ -3,127 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>huhahaha</title>
+    <title>test is 試験用</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #343541;
-            color: #ffffff;
-            display: flex;
-            height: 100vh;
-            margin: 0;
+        font-family: 'Noto Sans JP', sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        padding: 20px;
+        background-color: #f4f4f4;
+        text-align: center;
         }
-        .sidebar {
-            width: 250px;
-            background-color: #ffffff;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        position: relative;
         }
-        .sidebar a {
-            color: black;
-            text-decoration: none;
-            padding: 10px;
-            background: #ffffff;
-            border-radius: 5px;
-            text-align: center;
+        .menu-button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 1.2em;
+        position: absolute;
+        top: 10px;
+        right: 10px;
         }
-        .chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        .menu {
+        list-style: none;
+        padding: 0;
+        display: none;
+        background: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        position: absolute;
+        top: 50px;
+        right: 10px;
+        width: 200px;
+        animation: slideDown 0.3s ease-out;
         }
-        .chat-box {
-            width: 100%;
-            max-width: 600px;
-            height: 400px;
-            background-color: #444654;
-            padding: 20px;
-            border-radius: 10px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
+        @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
         }
-        .message {
-            padding: 10px;
-            border-radius: 5px;
-            margin: 5px 0;
-            max-width: 80%;
+        .menu li {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
         }
-        .user {
-            background-color: #10a37f;
-            align-self: flex-end;
+        .menu li:last-child {
+        border-bottom: none;
         }
-        .ai {
-            background-color: #555;
-            align-self: flex-start;
-        }
-        .input-container {
-            width: 100%;
-            max-width: 600px;
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        input {
-            flex: 1;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px 15px;
-            border: none;
-            background-color: #10a37f;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
+        .menu li:hover {
+        background-color: #f4f4f4;
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <a href="#">新しいチャット</a>
- </div>
-    <div class="chat-container">
-        <div class="chat-box" id="chat-box">
-            <!-- チャットのメッセージがここに表示される -->
-        </div>
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="メッセージを入力...">
-            <button onclick="sendMessage()">送信</button>
-        </div>
+    <div class="content">
+        <h1>It was breaking for me</h1>
+        <form action="{% url 'diary:index'%}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="送信">
+        </form>
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
     </div>
-
-    <script>
-        function sendMessage() {
-            const input = document.getElementById("user-input");
-            const chatBox = document.getElementById("chat-box");
-            if (input.value.trim() === "") return;
-            
-            // ユーザーメッセージを追加
-            const userMessage = document.createElement("div");
-            userMessage.classList.add("message", "user");
-            userMessage.textContent = input.value;
-            chatBox.appendChild(userMessage);
-            chatBox.scrollTop = chatBox.scrollHeight;
-            
-            // AI応答をシミュレート
-            setTimeout(() => {
-                const aiMessage = document.createElement("div");
-                aiMessage.classList.add("message", "ai");
-                aiMessage.textContent = "AI: " + "{{ response_text }}";
-                chatBox.appendChild(aiMessage);
-                chatBox.scrollTop = chatBox.scrollHeight;
-            }, 1000);
-            
-            input.value = "";
-        }
-    </script>
 </body>
 </html>
