@@ -1,7 +1,12 @@
-from django.urls import path, include
+from django.urls import path
 from . import views
+from .views import IndexView
 
-app_name='diary'
+app_name = 'diary'
+
 urlpatterns = [
-        path('',views.index,name='index'),
+    path('', IndexView.as_view(), name='index'),  # URL名を 'index' に設定
+    path('prompt/', views.prompt, name='prompt'),
+    path('generate/', views.generate_response, name='generate_response'),
+
 ]
