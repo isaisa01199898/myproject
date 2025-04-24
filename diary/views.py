@@ -1,107 +1,142 @@
+import numpy as np
+import time
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views import View
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from openai import OpenAI
-import os
 from dotenv import load_dotenv
-import google.generativeai as genai
+import os
+from groq import Groq
+import random
 from .forms import TestForm, PageForm
-
-ser_data=40
-data1=100
-data2=40
-data3=50
-data4=60
-data5=30
-data6=88
-data7=68
-
-
-# .envファイルの読み込み
+import Serial
+# Load environment variables
 load_dotenv()
+GROQ_API_KEY = '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'
+ser = serial.Serial('com4',9600)
+data = []
+liking
 
-# APIキーの設定
-GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
-# Generative AIの設定
-genai.configure(api_key=GOOGLE_API_KEY)
 
-# ビュー関数
+ser_data = 40
+sample_values = {
+    'data1': 100,
+    'data2': 40,
+    'data3': 50,
+    'data4': 60,
+    'data5': 30,
+    'data6': 88,
+    'data7': 68,
+}
+
+# ユーザーに返す形式: 1=四字熟語, 2=音楽, 3=history, 4=格言
+liking = 1
+
+# --- GROQ AI response view ---
 def generate_response(request):
-    # 入力プロンプト
-    prompt = request.GET.get('prompt', 'user_input')
+    user_input = request.GET.get('prompt', '質問を入力してください')
+    client = Groq(api_key=GROQ_API_KEY)
 
-    # モデルの生成
-    gemini_pro = genai.GenerativeModel("gemini-pro")
-    response = gemini_pro.generate_content(prompt)
+    system_prompt = {"role": "system", "content": "あなたは便利なアシスタントです。質問には簡潔に答えてください。"}
+    user_prompt = {"role": "user", "content": user_input}
+    chat_history = [system_prompt, user_prompt]
 
-    # 結果をJSONレスポンスとして返す
-    return JsonResponse({'response': response.text})
-def prompt_view(request):
-    if request.method == "POST":
-        form = TestForm(request.POST)
-        if form.is_valid():
-            user_input = form.cleaned_data['user_input']
-            # 必要な処理をここに追加
-            return redirect('diary:index')
-    else:
-        form = TestForm()
-    return render(request, 'diary/index.html', {'form': form})
+    try:
+        response = client.chat.completions.create(
+            model="llama3-70b-8192",
+            messages=chat_history,
+            max_tokens=100,
+            temperature=1.2
+        )
+        answer = response.choices[0].message.content
+    except Exception as e:
+        answer = f"エラーが発生しました: {e}"
 
+    return JsonResponse({'response': answer})
+
+
+# --- Main view for index ---
 class IndexView(View):
     template_name = "diary/index.html"
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['default_value'] = "ここに初期値を設定"  # ← 初期値を設定
-        return context
-    def post(self, request, *args, **kwargs):
-        context = {
-            'form': TestForm(request.POST),  # フォームデータを受け取る
-        }
-        if context['form'].is_valid():  # フォームのバリデーションを確認
-            user_input = context['form'].cleaned_data['user_input']  # 入力内容を取得
-            print(user_input)  # 入力内容を確認
-
-            # Geminiモデルを呼び出して回答を取得
-            try:
-                gemini_pro = genai.GenerativeModel("gemini-pro")
-                response = gemini_pro.generate_content(user_input)
-                context['message'] = response.text
-            except Exception as e:
-                print(f"Error: {e}")
-                context['message'] = "モデルの呼び出しに失敗しました。"
-
-        return render(request, "diary/index.html", context)
 
     def get(self, request):
-        now_time = datetime.now(
-            ZoneInfo("Asia/Tokyo")
-        ).strftime("%Y年%m月%d日 %H:%M:%S")
-        my_dict = {
-                "now_time": now_time , 
-                "ser_data":ser_data , 
-                "data1":data1 ,
-                "data2":data2,
-                "data3":data3,
-                "data4":data4,
-                "data5":data5,
-                "data6":data6,
-                "data7":data7,
-                'form': TestForm(),
-                'insert_forms': '初期値', 
+        # Initial render without AI message
+        context = {
+            'now_time': datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y年%m月%d日 %H:%M:%S"),
+            'ser_data': ser_data,
+            **sample_values,
+            'form': TestForm(),
+            'insert_forms': '初期値',
+            'message': None,
         }
-        if (request.method == 'POST'):
-            my_dict['insert_forms'] = '文字列:' + request.POST['text'] + '\n整数型:' + request.POST['num']
-            my_dict['form'] = TestForm(request.POST)
-        return render(
-            request, "diary/index.html", my_dict)  
+        return render(request, self.template_name, context)
 
+    def post(self, request, *args, **kwargs):
+        while len(data) < 15:
+          line = ser.readline().decode('utf-8').strip()
+          data.append(line)
+      
+          ser.close()
+      
+          try:
+              sensor_data = float(data[14])
+              break
+          except ValueError:
+              sensor_data = None
+              break
+
+        # Simulate sensor data
+        print("start")
+        print(f"{sensor_data}")
+        judebox = None
+        message = None
+
+        if sensor_data is not None:
+            if 75 <= sensor_data <= 85:
+                judebox = "集中"
+            elif sensor_data < 75:
+                judebox = "not集中"
+            else:
+                judebox = "super集中"
+
+        # AI processing based on mode and user liking
+        if judebox == "not集中" and liking == 1:
+            # 四字熟語リクエスト
+            prompt_text = '勉強している人を励ます四字熟語を一つだけ挙げてください。'
+            try:
+                client = Groq(api_key=GROQ_API_KEY)
+                chat_history = [
+                    {"role": "system", "content": "あなたは便利なアシスタントです。一文でおこたえください"},
+                    {"role": "user", "content": prompt_text}
+                ]
+                response = client.chat.completions.create(
+                    model="llama3-70b-8192",
+                    messages=chat_history,
+                    max_tokens=50,
+                    temperature=1.2
+                )
+                message = response.choices[0].message.content
+            except Exception as e:
+                message = f"モデルの呼び出しに失敗しました: {e}"
+        print(f"{message}")
+        # Prepare context for rendering
+        context = {
+            'now_time': datetime.now(ZoneInfo("Asia/Tokyo")).strftime("%Y年%m月%d日 %H:%M:%S"),
+            'ser_data': ser_data,
+            'form': TestForm(),
+            'insert_forms': '初期値',
+            'message': message,
+        }
+        return render(request, self.template_name, context)
+
+
+# --- Page creation view ---
 class PageCreateView(View):
     def get(self, request):
-        form = PageForm()
-        return render(request, 'diary/prompt.html', {'form': form})
+        return render(request, 'diary/prompt.html', {'form': PageForm()})
+
     def post(self, request):
         form = PageForm(request.POST)
         if form.is_valid():
@@ -109,5 +144,7 @@ class PageCreateView(View):
             return redirect('diary:index')
         return render(request, 'diary/prompt.html', {'form': form})
 
+
+# URL configuration
 index = IndexView.as_view()
 prompt = PageCreateView.as_view()
