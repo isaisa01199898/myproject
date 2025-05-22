@@ -18,8 +18,7 @@ Groq
 random
 diary.forms
 serial   #pyserial
-cv2
 dlib
 datetime
 pprint
-cv2  
+opencv-python
