@@ -15,7 +15,7 @@ google.generativeai
 dotenv
 
 Groq
-random
+
 
 serial   #pyserial
 dlib
