@@ -8,9 +8,9 @@ whitenoise
 openai
 
 google.generativeai
-numpy 
+
 time
-from 
+ 
 ZoneInfo
 dotenv
 os
