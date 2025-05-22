@@ -11,12 +11,12 @@ google.generativeai
 
 
  
-ZoneInfo
+
 dotenv
 os
 Groq
 random
-diary.forms
+
 serial   #pyserial
 dlib
 datetime
