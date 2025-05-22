@@ -20,5 +20,5 @@ Groq
 serial   #pyserial
 dlib
 datetime
-pprint
+
 opencv-python
