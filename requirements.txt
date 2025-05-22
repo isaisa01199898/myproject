@@ -9,7 +9,7 @@ openai
 
 google.generativeai
 
-
+python-3.9.18
  
 
 dotenv
