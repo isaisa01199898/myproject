@@ -13,7 +13,7 @@ google.generativeai
  
 
 dotenv
-os
+
 Groq
 random
 
