@@ -15,8 +15,7 @@ import dlib
 import os
 import datetime
 import pprint
-import os
-import cv2  
+import os  
 # Load environment variables
 load_dotenv()
 GROQ_API_KEY = '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'
