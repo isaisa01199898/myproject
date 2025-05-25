@@ -35,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 env.read_env(os.path.join(BASE_DIR, ".env"))
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']#webサイトを使う際はこちらに変更['heart-libbot.onrender.com']
+ALLOWED_HOSTS = ['heart-libbot.onrender.com']
 
 
 # Application definition
