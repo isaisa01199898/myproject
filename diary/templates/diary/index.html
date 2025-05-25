@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -67,8 +68,7 @@
         <h1>It was breaking for me</h1>
         <form action="{% url 'diary:index'%}" method="post">
             {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="送信">
+            <input type="submit" value="表示">
         </form>
         {% if message %}
             <p>{{ message }}</p>
