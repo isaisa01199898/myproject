@@ -10,8 +10,6 @@ from groq import Groq
 import random
 from .forms import TestForm, PageForm
 import serial   #pyserial
-import cv2
-import dlib
 import os
 import datetime
 import pprint
