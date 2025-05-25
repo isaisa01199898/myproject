@@ -78,27 +78,28 @@ class IndexView(View):
 
     def post(self, request, *args, **kwargs):
         #sinpakusuuyomitori
-        ser = serial.Serial('com8',9600)
-        line=''
-        i=0
-        data=[]
-        while len(data)<14:     #forではできない
-            line = ser.readline().decode('utf-8').strip()
-            data.append(line)
+        # ser = serial.Serial('com8',9600)
+        # line=''
+        # i=0
+        # data=[]
+        # while len(data)<14:     #forではできない
+        #     line = ser.readline().decode('utf-8').strip()
+        #     data.append(line)
 
         
-            print(data)
-        ser.close()
-        try:
-            sensor_data = float(data[-1])
-            print(f"{sensor_data}")
-        except :
-            sensor_data = None
-            print("you lose")
+        #     print(data)
+        # ser.close()
+        # try:
+        #     sensor_data = float(data[-1])
+        #     print(f"{sensor_data}")
+        # except :
+        #     sensor_data = None
+        #     print("you lose")
 
-        # Simulate sensor data
-        print("start")
-        print(f"{sensor_data}")
+        # # Simulate sensor data
+        # print("start")
+        # print(f"{sensor_data}")
+        sensor_data=78
         judebox = None
         message = None
 
