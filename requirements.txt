@@ -17,7 +17,7 @@ Groq
 
 
 serial   #pyserial
-dlib
+
 datetime
 
 opencv-python
