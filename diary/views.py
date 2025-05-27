@@ -16,20 +16,16 @@ import os
 # Load environment variables
 load_dotenv()
 GROQ_API_KEY = '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'
-liking = "四字熟語"#おくらせるジャンル
 data = []
 #modele= ["#class tracking_eyeye     eye = eye_tracking()     webcam = cv2.VideoCapture(0)     if not webcam.isOpened():         print("未接続")         exit()        while True:         i = 0         _, frame = webcam.read()         print(frame.shape, frame.dtype)         # 確認         eye.refresh(frame)                print("frame before refresh:", frame.shape, frame.dtype)            # 顔＋瞳に十字線を描画した結果を取得         frame = eye.annotated_frame()            text = " "            # 状態テキスト         text = ""         if eye.is_blinking():             text = "Blinking"         elif eye.is_right():             text = "Looking right"         elif eye.is_left():             text = "Looking left"         elif eye.is_center():             text = "Looking center"         cv2.putText(frame, text, (90, 60),                     cv2.FONT_HERSHEY_DUPLEX, 1.6, (147, 58, 31), 2)            # 瞳の座標を描画         left_pupil = eye.pupil_left_coords()         right_pupil = eye.pupil_right_coords()         cv2.putText(frame, "Left pupil:  " + str(left_pupil),                     (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)         cv2.putText(frame, "Right pupil: " + str(right_pupil),                     (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)         print(f"左目の座標：{left_pupil}")         print(f"右目の座標：{right_pupil}")         now = datetime.datetime.now()         with open('log.txt', 'a', encoding='UTF-8') as f:               f.write(f'リアルタイム: {now.strftime("%Y-%m-%d %H:%M:%S")} 左目の座標：{left_pupil} 右目の座標：{right_pupil}\n')                                                                        cv2.imshow("Demo", frame)                    # Escで終了         if cv2.waitKey(1) & 0xFF == 27:                 break        webcam.release()     cv2.destroyAllWindows() "]
     
     
 
-if liking = 1
-   liking ="四字熟語"
-   elif liking = 2
-　　　　liking ="音楽史の残る名言"
-   elif liking = 3
-　　　　liking ="歴史の維持の名言"
-   elif liking = 4
-　　　　liking ="格言"
+
+liking ="四字熟語"
+liking ="音楽史の残る名言"
+liking ="歴史の維持の名言"
+liking ="格言"
 
 ser_data = 40
 sample_values = {
