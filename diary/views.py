@@ -22,7 +22,14 @@ data = []
     
     
 
-
+if liking = 1
+   liking ="四字熟語"
+   elif liking = 2
+　　　　liking ="音楽史の残る名言"
+   elif liking = 3
+　　　　liking ="歴史の維持の名言"
+   elif liking = 4
+　　　　liking ="格言"
 
 ser_data = 40
 sample_values = {
@@ -38,27 +45,7 @@ sample_values = {
 # ユーザーに返す形式: 1=四字熟語, 2=音楽, 3=history, 4=格言
 liking = 1
 
-# --- GROQ AI response view ---
-def generate_response(request):
-    user_input = request.GET.get('prompt', '質問を入力してください')
-    client = Groq(api_key=GROQ_API_KEY)
 
-    system_prompt = {"role": "system", "content": "あなたは便利なアシスタントです。質問には簡潔に答えてください。"}
-    user_prompt = {"role": "user", "content": user_input}
-    chat_history = [system_prompt, user_prompt]
-
-    try:
-        response = client.chat.completions.create(
-            model="llama3-70b-8192",
-            messages=chat_history,
-            max_tokens=100,
-            temperature=1.2
-        )
-        answer = response.choices[0].message.content
-    except Exception as e:
-        answer = f"エラーが発生しました: {e}"
-
-    return JsonResponse({'response': answer})
 
 
 # --- Main view for index ---
@@ -112,13 +99,13 @@ class IndexView(View):
                 judebox = "super集中"
 
         # AI processing based on mode and user liking
-        if judebox == "集中できていない" and liking == 1:
+        
             # 四字熟語
-            prompt_text = f'勉強に{judebox}人を励ます四字熟語を一つだけ挙げてください。(その言葉の説明も入れて)（勉強に集中できない人を励ますように）'
+            prompt_text = f'勉強に{judebox}人を励ます{liking}を一つだけ挙げてください。(その言葉の説明も入れて)（勉強に集中できない人を励ますように）'
             try:
                 client = Groq(api_key=GROQ_API_KEY)
                 chat_history = [
-                    {"role": "system", "content": "あなたは便利なアシスタントです。一文でおこたえください"},
+                    {"role": "system", "content": "あなたは便利なアシスタントです。質問には、「結論一文。⇒その説明」の形式でお応えください。"},
                     {"role": "user", "content": prompt_text}
                 ]
                 response = client.chat.completions.create(
@@ -130,23 +117,7 @@ class IndexView(View):
                 message = response.choices[0].message.content
             except Exception as e:
                 message = f"k: {e}"
-        elif judebox == "集中" and liking == 1:
-            # 四字熟語
-            prompt_text = '集中してべんきょうしている人を励ます四字熟語を一つだけ挙げてください。'
-            try:
-                client = Groq(api_key=GROQ_API_KEY)
-                chat_history = [
-                    {"role": "system", "content": "あなたは便利なアシスタントです。一文でおこたえください"},
-                    {"role": "user", "content": prompt_text}
-                ]
-                response = client.chat.completions.create(
-                    model="llama3-70b-8192",
-                    messages=chat_history,
-                    max_tokens=50,
-                    temperature=1.2
-                )
-                message = response.choices[0].message.content
-            except Exception as e:
+                   except Exception as e:
                 message = f"k: {e}"
         # Prepare context for rendering
         context = {
