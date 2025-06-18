@@ -19,7 +19,7 @@ DEBUG = env.bool("DEBUG", default=False)
 
 # ALLOWED_HOSTSの設定（PythonAnywhereのドメインを追加）
 ALLOWED_HOSTS = [
-    'yourusername.pythonanywhere.com',
+    'isaisa9898.pythonanywhere.com',
     'heart-libbot.onrender.com',
     'localhost',
     '127.0.0.1',
