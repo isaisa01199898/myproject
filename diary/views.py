@@ -113,8 +113,7 @@ class IndexView(View):
                 message = response.choices[0].message.content
             except Exception as e:
                 message = f"k: {e}"
-                   except Exception as e:
-                message = f"k: {e}"
+
         # Prepare context for rendering
         context = {
             'ser_data': ser_data,
