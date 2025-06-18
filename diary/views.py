@@ -96,23 +96,21 @@ class IndexView(View):
 
         # AI processing based on mode and user liking
         
-            # 四字熟語
-            prompt_text = f'勉強に{judebox}人を励ます{liking}を一つだけ挙げてください。(その言葉の説明も入れて)（勉強に集中できない人を励ますように）'
-            try:
-                client = Groq(api_key=GROQ_API_KEY)
-                chat_history = [
-                    {"role": "system", "content": "あなたは便利なアシスタントです。質問には、「結論一文。⇒その説明」の形式でお応えください。"},
-                    {"role": "user", "content": prompt_text}
-                ]
-                response = client.chat.completions.create(
-                    model="llama3-70b-8192",
-                    messages=chat_history,
-                    max_tokens=50,
-                    temperature=1.2
-                )
-                message = response.choices[0].message.content
-            except Exception as e:
-                message = f"k: {e}"
+        # 四字熟語
+        prompt_text = f'勉強に{judebox}人を励ます{liking}を一つだけ挙げてください。(その言葉の説明も入れて)（勉強に集中できない人を励ますように）'
+            client = Groq(api_key=GROQ_API_KEY)
+            chat_history = [
+                {"role": "system", "content": "あなたは便利なアシスタントです。質問には、「結論一文。⇒その説明」の形式でお応えください。"},
+                {"role": "user", "content": prompt_text}
+            ]
+            response = client.chat.completions.create(
+                model="llama3-70b-8192",
+                messages=chat_history,
+                max_tokens=50,
+                temperature=1.2
+            )
+            message = response.choices[0].message.content
+
 
         # Prepare context for rendering
         context = {
