@@ -11,17 +11,25 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
-# セキュリティキー（本番環境では環境変数で管理を推奨）
-SECRET_KEY = 'django-insecure-o2d_7ozqnd1j_2_r5!+@r$&khg7sk&n+_@-0%&t!48zix7&x!$'
+# セキュリティキー（環境変数から取得。無ければ警告的な値）
+SECRET_KEY = env("SECRET_KEY", default="unsafe-secret-key")
 
-# デバッグ設定（本番ではFalseにする）
-DEBUG = True
+# デバッグ設定（本番環境ではFalseにする）
+DEBUG = env.bool("DEBUG", default=False)
 
-# ALLOWED_HOSTSの設定
-ALLOWED_HOSTS = ['heart-libbot.onrender.com', 'localhost', '127.0.0.1']
+# ALLOWED_HOSTSの設定（PythonAnywhereのドメインを追加）
+ALLOWED_HOSTS = [
+    'yourusername.pythonanywhere.com',
+    'heart-libbot.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 
-# CSRF対応（Django 4.x以降で必要）
-CSRF_TRUSTED_ORIGINS = ['https://heart-libbot.onrender.com']
+# CSRF対応（本番環境のドメインを追加）
+CSRF_TRUSTED_ORIGINS = [
+    'https://yourusername.pythonanywhere.com',
+    'https://heart-libbot.onrender.com',
+]
 
 # アプリケーション定義
 INSTALLED_APPS = [
@@ -65,7 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
-# データベース設定（自動でSQLite→PostgreSQL切替）
+# データベース設定（SQLiteがデフォルト）
 default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
 DATABASES = {
     'default': config("DATABASE_URL", default=default_dburl, cast=dburl)
@@ -93,7 +101,7 @@ TIME_ZONE = 'Asia/Tokyo'
 USE_I18N = True
 USE_TZ = True
 
-# 静的ファイル
+# 静的ファイル設定（Whitenoiseで圧縮・配信）
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -101,7 +109,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # デフォルトのプライマリキー
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 環境変数でスーパーユーザー情報
+# 環境変数でスーパーユーザー情報（必要なら）
 SUPERUSER_NAME = env("SUPERUSER_NAME", default="admin")
 SUPERUSER_EMAIL = env("SUPERUSER_EMAIL", default="admin@example.com")
 SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD", default="password")
