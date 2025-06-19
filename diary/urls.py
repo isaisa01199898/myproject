@@ -1,12 +1,9 @@
 from django.urls import path
-from . import views
-from .views import IndexView
+from .views import IndexView, PageCreateView
 
 app_name = 'diary'
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),  # URL名を 'index' に設定
-    path('prompt/', views.prompt, name='prompt'),
-    path('generate/', views.generate_response, name='generate_response'),
-
+    path('', IndexView.as_view(), name='index'),
+    path('prompt/', PageCreateView.as_view(), name='prompt'),
 ]
