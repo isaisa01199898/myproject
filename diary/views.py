@@ -86,13 +86,12 @@ class IndexView(View):
         judebox = None
         message = None
 
-        if sensor_data is not None:
-            if 75 <= sensor_data <= 85:
-                judebox = "集中"
-            elif sensor_data < 75:
-                judebox = "集中できていない"
-            else:
-                judebox = "super集中"
+        if 75 <= sensor_data <= 85:
+            judebox = "集中"
+        elif sensor_data < 75:
+            judebox = "集中できていない"
+        else:
+            judebox = "super集中"
 
         # AI processing based on mode and user liking
         
