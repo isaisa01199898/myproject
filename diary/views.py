@@ -6,7 +6,6 @@ from django.views import View
 from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 import os
-from groq import Groq
 import random
 from .forms import TestForm, PageForm
 import os
