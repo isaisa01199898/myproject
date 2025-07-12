@@ -4,18 +4,11 @@ django-environ
 python-decouple
 dj_database_url
 whitenoise
-
-
-
-
- 
-
+opencv-python
 dotenv
 psycopg2-binary>=2.9
-Groq
-
-
-serial   #pyserial
-
+google.generativeai
+pyserial
+numpy
 datetime
 
